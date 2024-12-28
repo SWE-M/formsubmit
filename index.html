@@ -6,46 +6,65 @@
     <title>نموذج الاتصال</title>
     <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <script>
-        // تهيئة EmailJS باستخدام Public Key الخاص بك
         (function () {
             emailjs.init("1xqwBMfecM1SSulsh"); // استبدل بـ Public Key الخاص بك
         })();
     </script>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 20px;
-            direction: rtl;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            direction: rtl;
+            color: #333;
         }
-        h1 {
+        h1, h3 {
             color: #4CAF50;
         }
+        .welcome-message {
+            font-size: 22px;
+            color: #4CAF50;
+            margin-bottom: 20px;
+            transition: opacity 1s ease;
+        }
         .platform {
-            margin: 15px;
-            cursor: pointer;
-            display: inline-block;
-            padding: 10px 20px;
+            margin: 20px 0;
+            padding: 12px 30px;
             background-color: #4CAF50;
             color: white;
-            border-radius: 5px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+        .platform:hover {
+            background-color: #45a049;
         }
         .form-container {
             display: none;
-            margin-top: 20px;
+            margin-top: 30px;
         }
         .form-container input, .form-container textarea {
-            margin: 10px;
-            padding: 10px;
-            width: 200px;
+            width: 80%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
         }
         .form-container button {
-            padding: 10px 15px;
+            padding: 12px 25px;
             background-color: #4CAF50;
             color: white;
             border: none;
+            border-radius: 6px;
+            font-size: 18px;
             cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .form-container button:hover {
+            background-color: #45a049;
         }
         .thank-you {
             display: none;
@@ -53,26 +72,43 @@
             color: green;
             font-weight: bold;
         }
-        .welcome-message {
-            font-size: 20px;
-            margin-bottom: 20px;
-            color: #4CAF50;
+        #contact-form {
+            margin-top: 30px;
+            text-align: left;
+        }
+        #contact-form input, #contact-form textarea {
+            width: 80%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        #contact-form button {
+            padding: 12px 25px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #contact-form button:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
 <body>
 
-    <!-- رسالة الترحيب -->
     <div class="welcome-message" id="welcome-message">
         مرحبًا بك في مهمتنا! اختر المنصة التي تود الانضمام إليها.
     </div>
 
-    <!-- منصات التواصل -->
     <div class="platform" id="instagram">إنستغرام</div>
     <div class="platform" id="x">إكس</div>
     <div class="platform" id="facebook">فيسبوك</div>
 
-    <!-- النموذج الذي يظهر بعد الضغط على منصة -->
     <div class="form-container" id="form-container">
         <h3 id="platform-name">التسجيل في</h3>
         <form id="registration-form">
@@ -82,13 +118,11 @@
         </form>
     </div>
 
-    <!-- رسالة الشكر بعد إرسال النموذج -->
     <div class="thank-you" id="thank-you">
         <p>شكرًا لتسجيلك!</p>
         <p>تم إرسال معلوماتك بنجاح.</p>
     </div>
 
-    <!-- نموذج التواصل -->
     <h1>تواصل معنا</h1>
     <form id="contact-form">
         <input type="text" name="name" placeholder="اسمك" required><br>
@@ -98,7 +132,6 @@
     </form>
 
     <script>
-        // تفعيل منصات التواصل
         const platforms = document.querySelectorAll('.platform');
         const formContainer = document.getElementById('form-container');
         const platformName = document.getElementById('platform-name');
@@ -114,9 +147,8 @@
             });
         });
 
-        // إرسال نموذج الاتصال
         document.getElementById('contact-form').addEventListener('submit', function (event) {
-            event.preventDefault(); // منع تحديث الصفحة
+            event.preventDefault();
 
             emailjs.sendForm('service_ir3vg5y', 'template_jw2qkzr', this)
                 .then(function () {
@@ -126,15 +158,12 @@
                 });
         });
 
-        // إرسال بيانات التسجيل
         document.getElementById('registration-form').addEventListener('submit', function (event) {
-            event.preventDefault(); // منع النموذج من تحديث الصفحة
+            event.preventDefault();
 
-            // محاكاة إرسال النموذج وعرض رسالة الشكر
             formContainer.style.display = 'none';
             thankYouMessage.style.display = 'block';
 
-            // إرسال بيانات التسجيل عبر EmailJS
             emailjs.sendForm('service_ir3vg5y', 'template_jw2qkzr', this)
                 .then(function () {
                     console.log('تم إرسال البيانات بنجاح!');
