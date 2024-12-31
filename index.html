@@ -18,6 +18,14 @@
             document.documentElement.lang = lang;
         }
 
+        // تفعيل النموذج عند الضغط على أحد التطبيقات
+        function activateContactForm(platformName) {
+            const formContainer = document.getElementById('form-container');
+            const platformTitle = document.getElementById('platform-name');
+            platformTitle.textContent = platformName;  // عرض اسم المنصة
+            formContainer.style.display = 'block'; // إظهار النموذج
+        }
+
         function sendEmail(event) {
             event.preventDefault(); // منع الإرسال الافتراضي للنموذج
 
@@ -34,6 +42,7 @@
                 message: form.message.value
             });
 
+            // إرسال البيانات عبر EmailJS
             emailjs.sendForm('service_ir3vg5y', 'template_jw2qkzr', form).then(function(response) {
                 console.log('Success:', response);
                 alert('تم إرسال الرسالة بنجاح!');
@@ -162,9 +171,9 @@
 <div class="content">
     <div class="welcome-message" data-ar="اختر المنصة التي تود الانضمام إليها." data-en="Choose the platform you want to join.">اختر المنصة التي تود الانضمام إليها.</div>
 
-    <div class="platform" id="instagram" data-ar="إنستغرام" data-en="Instagram">إنستغرام</div>
-    <div class="platform" id="x" data-ar="إكس" data-en="X">إكس</div>
-    <div class="platform" id="facebook" data-ar="فيسبوك" data-en="Facebook">فيسبوك</div>
+    <div class="platform" id="instagram" onclick="activateContactForm('إنستغرام')" data-ar="إنستغرام" data-en="Instagram">إنستغرام</div>
+    <div class="platform" id="x" onclick="activateContactForm('إكس')" data-ar="إكس" data-en="X">إكس</div>
+    <div class="platform" id="facebook" onclick="activateContactForm('فيسبوك')" data-ar="فيسبوك" data-en="Facebook">فيسبوك</div>
 
     <div class="form-container" id="form-container">
         <h3 id="platform-name" data-ar="التسجيل في" data-en="Sign up for">التسجيل في</h3>
