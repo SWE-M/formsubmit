@@ -26,6 +26,7 @@
             formContainer.style.display = 'block'; // إظهار النموذج
         }
 
+        // إرسال البريد عبر EmailJS
         function sendEmail(event) {
             event.preventDefault(); // منع الإرسال الافتراضي للنموذج
 
@@ -35,12 +36,6 @@
                 alert('يرجى ملء جميع الحقول.');
                 return;
             }
-
-            console.log("Data to be sent:", {
-                name: form.name.value,
-                email: form.email.value,
-                message: form.message.value
-            });
 
             // إرسال البيانات عبر EmailJS
             emailjs.sendForm('service_ir3vg5y', 'template_jw2qkzr', form).then(function(response) {
@@ -195,14 +190,15 @@
 </div>
 
 <script>
+    // تفعيل النموذج عند الضغط على منصات
     const platforms = document.querySelectorAll('.platform');
     const formContainer = document.getElementById('form-container');
     const platformName = document.getElementById('platform-name');
 
     platforms.forEach(platform => {
         platform.addEventListener('click', () => {
-            platformName.textContent = `${platform.getAttribute('data-ar')}`;
-            formContainer.style.display = 'block';
+            platformName.textContent = platform.getAttribute('data-ar'); // تغيير النص إلى العربية
+            formContainer.style.display = 'block'; // إظهار النموذج
         });
     });
 </script>
