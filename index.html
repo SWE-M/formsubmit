@@ -21,25 +21,24 @@
         function sendEmail(event) {
             event.preventDefault(); // منع الإرسال الافتراضي للنموذج
 
-            const name = document.getElementById('contact-form').name.value;
-            const email = document.getElementById('contact-form').email.value;
-            const message = document.getElementById('contact-form').message.value;
-
+            var form = document.getElementById('contact-form');
             // التحقق من الحقول
-            if (!name || !email || !message) {
+            if (!form.name.value || !form.email.value || !form.message.value) {
                 alert('يرجى ملء جميع الحقول.');
                 return;
             }
 
-            emailjs.send("service_ir3vg5y", "template_jw2qkzr", {
-                name: name,
-                email: email,
-                message: message
-            }).then(function (response) {
+            console.log("Data to be sent:", {
+                name: form.name.value,
+                email: form.email.value,
+                message: form.message.value
+            });
+
+            emailjs.sendForm('service_ir3vg5y', 'template_jw2qkzr', form).then(function(response) {
                 console.log('Success:', response);
                 alert('تم إرسال الرسالة بنجاح!');
-                document.getElementById('contact-form').reset(); // إعادة تعيين النموذج بعد الإرسال
-            }, function (error) {
+                form.reset(); // إعادة تعيين النموذج بعد الإرسال
+            }, function(error) {
                 console.log('Error:', error);
                 alert('حدث خطأ أثناء إرسال الرسالة.');
             });
