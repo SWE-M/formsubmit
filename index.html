@@ -18,14 +18,29 @@
             document.documentElement.lang = lang;
         }
 
-        function sendEmail() {
+        function sendEmail(event) {
+            event.preventDefault(); // منع الإرسال الافتراضي للنموذج
+
+            const name = document.getElementById('contact-form').name.value;
+            const email = document.getElementById('contact-form').email.value;
+            const message = document.getElementById('contact-form').message.value;
+
+            // التحقق من الحقول
+            if (!name || !email || !message) {
+                alert('يرجى ملء جميع الحقول.');
+                return;
+            }
+
             emailjs.send("service_ir3vg5y", "template_jw2qkzr", {
-                name: document.getElementById('contact-form').name.value,
-                email: document.getElementById('contact-form').email.value,
-                message: document.getElementById('contact-form').message.value
+                name: name,
+                email: email,
+                message: message
             }).then(function (response) {
+                console.log('Success:', response);
                 alert('تم إرسال الرسالة بنجاح!');
+                document.getElementById('contact-form').reset(); // إعادة تعيين النموذج بعد الإرسال
             }, function (error) {
+                console.log('Error:', error);
                 alert('حدث خطأ أثناء إرسال الرسالة.');
             });
         }
@@ -163,7 +178,7 @@
 
     <button class="contact-toggle" onclick="document.getElementById('contact-form').style.display = 'block'" data-ar="تواصل معنا" data-en="Contact Us">تواصل معنا</button>
 
-    <form id="contact-form" style="display: none;" onsubmit="event.preventDefault(); sendEmail();">
+    <form id="contact-form" style="display: none;" onsubmit="sendEmail(event)">
         <input type="text" name="name" placeholder="اسمك" required>
         <input type="email" name="email" placeholder="بريدك الإلكتروني" required>
         <textarea name="message" placeholder="رسالتك" required></textarea>
