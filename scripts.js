@@ -1,4 +1,4 @@
-// Initialize EmailJS
+// Initialize EmailJS with the provided public key
 document.addEventListener("DOMContentLoaded", () => {
     emailjs.init("1xqwBMfecM1SSulsh"); // Public Key
 });
