@@ -24,11 +24,11 @@
 <div class="content">
     <div class="welcome-message" data-ar="اختر المنصة التي تود الانضمام إليها." data-en="Choose the platform you want to join.">اختر المنصة التي تود الانضمام إليها.</div>
 
-    <div class="platform" id="instagram" data-ar="إنستغرام" data-en="Instagram">إنستغرام</div>
-    <div class="platform" id="x" data-ar="إكس" data-en="X">إكس</div>
-    <div class="platform" id="facebook" data-ar="فيسبوك" data-en="Facebook">فيسبوك</div>
+    <div class="platform" id="instagram" data-ar="إنستغرام" data-en="Instagram" onclick="showForm('instagram')">إنستغرام</div>
+    <div class="platform" id="x" data-ar="إكس" data-en="X" onclick="showForm('x')">إكس</div>
+    <div class="platform" id="facebook" data-ar="فيسبوك" data-en="Facebook" onclick="showForm('facebook')">فيسبوك</div>
 
-    <div class="form-container" id="form-container">
+    <div class="form-container" id="form-container" style="display: none;">
         <h3 id="platform-name" data-ar="التسجيل في" data-en="Sign up for">التسجيل في</h3>
         <form id="registration-form">
             <input type="text" name="username" id="username" placeholder="اسم المستخدم" required>
